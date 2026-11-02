@@ -7,8 +7,8 @@ const allowed = new Set([
 const reply=(code,data)=>new Response(JSON.stringify(data),{status:code,headers:{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});
 export default async (request)=>{
  if(request.method!=='POST')return reply(405,{ok:false,error:'Chỉ chấp nhận POST'});
- const endpoint=Netlify.env.get('APPS_SCRIPT_WEBAPP_URL');
- const secret=Netlify.env.get('V6_BRIDGE_SECRET');
+const endpoint = process.env.GAS_WEBAPP_URL;
+const secret = process.env.V6_BRIDGE_SECRET;
  if(!endpoint||!secret)return reply(503,{ok:false,error:'Chưa cấu hình kết nối Google Apps Script trên Netlify.'});
  try{
   if(Number(request.headers.get('content-length')||0)>3000000)return reply(413,{ok:false,error:'Yêu cầu quá lớn'});
