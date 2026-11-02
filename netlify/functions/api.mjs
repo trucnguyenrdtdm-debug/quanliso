@@ -20,5 +20,14 @@ const secret = process.env.V6_BRIDGE_SECRET;
    const raw=await upstream.text();let data;try{data=JSON.parse(raw)}catch{throw Error('Google Apps Script chưa trả JSON. Kiểm tra URL /exec và quyền triển khai.')}
    return reply(upstream.ok?200:502,data);
   }finally{clearTimeout(timeout)}
- }catch(e){return reply(502,{ok:false,error:'Không kết nối được máy chủ Apps Script: '+String(e.message||e)});}
+}catch(e){
+  console.error('V6 API ERROR:', {
+    name: e.name,
+    message: e.message
+  });
+  return reply(502,{
+    ok:false,
+    error:'Không kết nối được máy chủ Apps Script: '+String(e.message||e)
+  });
+}
 };
